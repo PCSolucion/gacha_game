@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gachapon Machine - Máquina Realista</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="gachapon-machine">
+            <img src="https://res.cloudinary.com/pcsolucion/image/upload/v1757222105/22-Photoroom_hh2pwz.png" alt="" class="top">
+            <img src="https://res.cloudinary.com/pcsolucion/image/upload/v1757225165/33-Photoroom_ucc4zv.png" alt="" class="sleft">
+            <img src="https://res.cloudinary.com/pcsolucion/image/upload/v1757225510/44-Photoroom_1_tmx7mp.png" alt="" class="sright">
+          <img src="https://res.cloudinary.com/pcsolucion/image/upload/v1757240184/666-Photoroom44_uhbtix.png" alt="" class="scrank"> 
+          
+          <img src="https://res.cloudinary.com/pcsolucion/image/upload/v1757226207/55-Photoroom_vdkrpw.png" alt="" class="sbottom">
+            
+            <!-- Ventana de cristal circular -->
+            <div class="glass-dome">
+                <div class="dome-frame">
+                    <div class="frame-bolts">
+                        <div class="bolt"></div>
+                        <div class="bolt"></div>
+                        <div class="bolt"></div>
+                        <div class="bolt"></div>
+                    </div>
+                </div>
+                <div class="balls-container" id="ballsContainer">
+                    <!-- Las bolas se generarán dinámicamente -->
+                </div>
+                <!-- Efectos de luz dentro de la cúpula -->
+                <div class="dome-lighting"></div>
+                <div class="dome-reflection"></div>
+            </div>
+            
+            <div class="machine-body">
+                
+                <!-- Marco superior decorativo -->
+                
+                <!-- Panel de control mejorado -->
+                
+                
+                <!-- Ranura de salida mejorada -->
+                
+                
+                <!-- Detalles decorativos -->
+                <div class="machine-details">
+                    <div class="side-panel left">
+                        <div class="vent"></div>
+                        <div class="vent"></div>
+                    </div>
+                    <div class="side-panel right">
+                        <div class="vent"></div>
+                        <div class="vent"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Base de la máquina mejorada -->
+            <div class="machine-base">
+                <div class="base-frame">
+                    <div class="base-details">
+                        <div class="coin-slot">
+                            <div class="slot-frame"></div>
+                            <div class="coin-indicator">💰</div>
+                            <div class="coin-light"></div>
+                        </div>
+                        <div class="machine-logo">
+                            <div class="logo-text">GACHAPON</div>
+                            <div class="logo-subtitle">PREMIUM</div>
+                        </div>
+                        <div class="power-indicator">
+                            <div class="power-light"></div>
+                        </div>
+                    </div>
+                    <div class="base-feet">
+                        <div class="foot"></div>
+                        <div class="foot"></div>
+                        <div class="foot"></div>
+                        <div class="foot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Botón de giro debajo de la máquina -->
+        <div class="spin-button-container">
+            <button class="spin-button" id="spinButton">
+                <span class="button-text">Iniciar</span>
+                <span class="button-icon">🎰</span>
+            </button>
+        </div>
+        
+        <!-- Panel de información -->
+        <div class="info-panel">
+            <h3>Premios Disponibles</h3>
+            <div class="prizes-list" id="prizesList">
+                <!-- Lista de premios se generará dinámicamente -->
+            </div>
+        </div>
+        
+        <!-- Efectos de partículas -->
+        <div class="particles-container" id="particlesContainer"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

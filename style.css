@@ -1,0 +1,1271 @@
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #110d13;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+.game-container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    transform-style: preserve-3d;
+}
+
+/* Máquina de Gachapon Realista */
+.gachapon-machine {
+    width: 452px;
+    margin-top: 79px;
+    height: 774px;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+@keyframes machineFloat {
+    0%, 100% { transform: translateY(0px) rotateX(2deg); }
+    50% { transform: translateY(-8px) rotateX(2deg); }
+}
+
+/* Cuerpo principal de la máquina */
+.machine-body {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    position: relative;
+    transform: translateZ(15px);
+    overflow: hidden;
+}
+
+.machine-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 30px;
+    pointer-events: none;
+}
+
+.machine-body::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+/* Cúpula de cristal */
+.glass-dome {
+    position: absolute;
+    z-index: 1;
+    top: 89px;
+    left: -5px;
+    right: 33px;
+    width: 373px;
+    height: 287px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.15) 30%, rgba(255, 255, 255, 0.08) 70%, rgba(0, 0, 0, 0.15) 100%);
+    border-radius: 0 !important;
+    overflow: hidden;
+    transform: translateZ(0px);
+}
+
+.dome-frame {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+}
+
+.frame-bolts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.bolt {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(145deg, #ffd700, #f39c12);
+    border-radius: 50%;
+    box-shadow:
+        0 2px 4px rgba(0,0,0,0.3),
+        inset 0 1px 2px rgba(255,255,255,0.3);
+}
+
+.bolt:nth-child(1) { top: 10px; left: 50%; transform: translateX(-50%); }
+.bolt:nth-child(2) { top: 50%; right: 10px; transform: translateY(-50%); }
+.bolt:nth-child(3) { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.bolt:nth-child(4) { top: 50%; left: 10px; transform: translateY(-50%); }
+
+.dome-reflection {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.349) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(255,255,255,0.2) 100%);
+    pointer-events: none;
+    animation: domeReflection 4s ease-in-out infinite alternate;
+    z-index: 6;
+}
+
+@keyframes domeReflection {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.7; }
+}
+
+.balls-container {
+    position: relative;
+    opacity: 75%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.dome-lighting {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.123) 0%,
+        transparent 50%);
+    border-radius: 15px;
+    animation: domeGlow 3s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes domeGlow {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.7; }
+}
+
+/* Bolas dentro de la cúpula - incrementadas ~15% */
+.gachapon-ball {
+    position: absolute;
+    width: 67px; /* antes 58px, ahora ~+15% */
+    height: 67px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%,
+        #ffffff 0%,
+        #f8f8f8 20%,
+        #e8e8e8 40%,
+        #d0d0d0 60%,
+        #b8b8b8 80%,
+        #a0a0a0 100%);
+    border: 3px solid #ffffff;
+    box-shadow:
+        inset -8px -8px 12px rgba(0, 0, 0, 0.3),
+        inset 8px 8px 12px rgba(255, 255, 255, 0.8),
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: ballFloat 8s ease-in-out infinite;
+    z-index: 3;
+}
+
+/* Emoji centrado dentro de la bola */
+.gachapon-ball .ball-emoji {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 38px;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.4));
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Imagen dentro de la bola (si el premio tiene image) */
+.gachapon-ball .ball-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.gachapon-ball::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 25%;
+    width: 27px; /* ajustado al nuevo tamaño */
+    height: 27px;
+    background: radial-gradient(circle at 30% 30%,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.6) 50%,
+        transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.gachapon-ball::after {
+    content: '';
+    position: absolute;
+    top: 60%;
+    left: 60%;
+    width: 11px;
+    height: 11px;
+    background: radial-gradient(circle,
+        rgba(255, 255, 255, 0.7) 0%,
+        transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.gachapon-ball:hover {
+    transform: scale(1.1);
+    box-shadow:
+        inset -8px -8px 12px rgba(0, 0, 0, 0.4),
+        inset 8px 8px 12px rgba(255, 255, 255, 0.9),
+        0 6px 16px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(0, 0, 0, 0.15),
+        0 0 25px rgba(255, 255, 255, 0.4);
+}
+
+@keyframes ballFloat {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-20px) translateX(15px) rotate(90deg);
+    }
+    50% {
+        transform: translateY(-35px) translateX(-10px) rotate(180deg);
+    }
+    75% {
+        transform: translateY(-15px) translateX(-25px) rotate(270deg);
+    }
+}
+
+/* Colores de bolas basados en rareza */
+.gachapon-ball.rarity-common {
+    background: radial-gradient(circle at 30% 30%,
+        #c7ccd3 0%,
+        #b3bac3 20%,
+        #9ca3af 45%,
+        #6b7280 70%,
+        #4b5563 100%);
+    border-color: #b3bac3;
+}
+
+.gachapon-ball.rarity-uncommon {
+    background: radial-gradient(circle at 30% 30%,
+        #6ee7b7 0%,
+        #34d399 20%,
+        #10b981 45%,
+        #0e8f66 70%,
+        #0b7051 100%);
+    border-color: #34d399;
+}
+
+.gachapon-ball.rarity-rare {
+    background: radial-gradient(circle at 30% 30%,
+        #93c5fd 0%,
+        #60a5fa 20%,
+        #3b82f6 45%,
+        #2563eb 70%,
+        #1e40af 100%);
+    border-color: #60a5fa;
+}
+
+.gachapon-ball.rarity-epic {
+    background: radial-gradient(circle at 30% 30%,
+        #c4b5fd 0%,
+        #a78bfa 20%,
+        #8b5cf6 45%,
+        #6d28d9 70%,
+        #4c1d95 100%);
+    border-color: #a78bfa;
+}
+
+.gachapon-ball.rarity-legendary {
+    background: radial-gradient(circle at 30% 30%,
+        #fcd34d 0%,
+        #fbbf24 20%,
+        #f59e0b 45%,
+        #d97706 70%,
+        #92400e 100%);
+    border-color: #fbbf24;
+}
+
+.gachapon-ball.rarity-mythic {
+    background: radial-gradient(circle at 30% 30%,
+        #fca5a5 0%,
+        #f87171 20%,
+        #ef4444 45%,
+        #dc2626 70%,
+        #991b1b 100%);
+    border-color: #f87171;
+}
+
+/* Bola seleccionada */
+.gachapon-ball.selected-ball {
+    animation: selectedBallPulse 0.5s ease-in-out infinite alternate;
+    border: 3px solid #ffd700;
+    box-shadow: 
+        0 0 30px rgba(255, 215, 0, 0.8),
+        0 0 60px rgba(255, 215, 0, 0.4),
+        inset 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes selectedBallPulse {
+    0% {
+        transform: scale(1.3);
+        box-shadow: 
+            0 0 30px rgba(255, 215, 0, 0.8),
+            0 0 60px rgba(255, 215, 0, 0.4),
+            inset 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    100% {
+        transform: scale(1.4);
+        box-shadow: 
+            0 0 40px rgba(255, 215, 0, 1),
+            0 0 80px rgba(255, 215, 0, 0.6),
+            inset 0 0 30px rgba(255, 215, 0, 0.5);
+    }
+}
+
+/* Panel de control */
+.control-panel {
+    position: absolute;
+    bottom: 90px;
+    left: -213px;
+    width: 444px;
+    right: 20px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: translateZ(8px);
+}
+
+.control-panel::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    right: 10px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ffd700, transparent);
+    border-radius: 1px;
+}
+
+/* Pantalla de display */
+.display-screen {
+    width: 200px;
+    height: 90px;
+    position: relative;
+}
+
+.screen-frame {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+    border: 3px solid #ffd700;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        inset 0 0 25px rgba(255, 215, 0, 0.3),
+        0 0 20px rgba(255, 215, 0, 0.2),
+        inset 0 0 0 2px rgba(255,255,255,0.1);
+    position: relative;
+}
+
+.screen-frame::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff00, transparent);
+    border-radius: 1px;
+}
+
+.screen-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 0, 0.1) 2px,
+        rgba(0, 255, 0, 0.1) 4px
+    );
+    border-radius: 12px;
+    pointer-events: none;
+}
+
+.screen-content {
+    text-align: center;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+}
+
+.screen-content h2 {
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-shadow: 0 0 8px #00ff00;
+    animation: screenGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes screenGlow {
+    from { text-shadow: 0 0 8px #00ff00; }
+    to { text-shadow: 0 0 15px #00ff00, 0 0 25px #00ff00; }
+}
+
+.prize-display {
+    font-size: 10px;
+}
+
+.prize-name {
+    color: #ffffff;
+    margin-bottom: 3px;
+}
+
+.prize-rarity {
+    font-size: 8px;
+    font-weight: bold;
+}
+
+/* Manivela de giro */
+.crank-container {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.crank-base {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(145deg, #34495e, #2c3e50);
+    border-radius: 50%;
+    box-shadow:
+        inset 0 3px 10px rgba(0,0,0,0.4),
+        0 6px 15px rgba(0,0,0,0.3),
+        0 0 0 2px rgba(255,255,255,0.1);
+    position: relative;
+}
+
+.crank-mechanism {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(145deg, #2c3e50, #34495e);
+    border-radius: 50%;
+    box-shadow:
+        inset 0 3px 6px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.crank-mechanism::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, #ffd700 0%, #f39c12 100%);
+    border-radius: 50%;
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,0.3),
+        0 2px 4px rgba(0,0,0,0.3);
+}
+
+.crank-handle {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform-origin: center;
+    z-index: 10;
+}
+
+.crank-handle:hover {
+    transform: scale(1.05);
+}
+
+.crank-handle.spinning {
+    animation: crankSpin 0.3s linear infinite;
+}
+
+.crank-handle.crank-spin-360 {
+    animation: crankSpin360 2s ease-in-out;
+}
+
+@keyframes crankSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes crankSpin360 {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.crank-knob {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #ffd700, #f39c12);
+    border-radius: 50%;
+    box-shadow:
+        0 6px 12px rgba(0,0,0,0.4),
+        inset 0 3px 6px rgba(255,255,255,0.4),
+        0 0 0 2px rgba(255,255,255,0.2);
+    position: relative;
+}
+
+.knob-grip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25px;
+    height: 25px;
+    background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0.8) 30%, transparent 30%);
+    border-radius: 50%;
+    box-shadow:
+        inset 0 1px 2px rgba(0,0,0,0.2),
+        0 1px 2px rgba(255,255,255,0.5);
+}
+
+.crank-arm {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(145deg, #ffd700, #f39c12);
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Ranura de salida */
+.output-chute {
+    position: absolute;
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 80px;
+    background: linear-gradient(145deg, #2c3e50, #34495e);
+    border-radius: 30px 30px 0 0;
+    overflow: hidden;
+    box-shadow:
+        inset 0 2px 8px rgba(0,0,0,0.3),
+        0 4px 12px rgba(0,0,0,0.2);
+    transform: translateZ(3px);
+}
+
+.chute-door {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+    border-radius: 28px 28px 0 0;
+    transition: all 0.5s ease;
+    position: relative;
+    transform: translateY(0);
+}
+
+.chute-door.open {
+    transform: translateY(-100%);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.prize-tray {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(145deg, #ffd700, #f39c12);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.tray-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg,
+        rgba(255,255,255,0.3) 0%,
+        transparent 50%,
+        rgba(255,255,255,0.3) 100%);
+    animation: trayShine 2s ease-in-out infinite;
+}
+
+@keyframes trayShine {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+}
+
+/* Base de la máquina mejorada */
+.machine-base {
+    position: absolute;
+    bottom: -25px;
+    left: -15px;
+    right: -15px;
+    height: 60px;
+    transform: translateZ(0px);
+    display: none;
+}
+
+.base-frame {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #2c3e50, #34495e);
+    border-radius: 0 0 35px 35px;
+    box-shadow:
+        inset 0 3px 12px rgba(0,0,0,0.4),
+        0 10px 25px rgba(0,0,0,0.4),
+        0 0 0 2px rgba(255,255,255,0.1);
+    position: relative;
+}
+
+.base-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 25px;
+    height: 40px;
+}
+
+.coin-slot {
+    width: 60px;
+    height: 35px;
+    position: relative;
+    background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        inset 0 2px 6px rgba(0,0,0,0.4),
+        0 2px 6px rgba(0,0,0,0.2);
+}
+
+.slot-frame {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 12px;
+    pointer-events: none;
+}
+
+.coin-indicator {
+    font-size: 20px;
+    animation: coinSpin 3s linear infinite;
+    z-index: 2;
+}
+
+.coin-light {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+    border-radius: 8px;
+    animation: coinGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes coinGlow {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.8; }
+}
+
+@keyframes coinSpin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+.machine-logo {
+    text-align: center;
+}
+
+.logo-text {
+    color: #ffd700;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    letter-spacing: 1px;
+}
+
+.logo-subtitle {
+    color: #bdc3c7;
+    font-size: 8px;
+    opacity: 0.8;
+    margin-top: 2px;
+}
+
+.power-indicator {
+    width: 20px;
+    height: 20px;
+    position: relative;
+}
+
+.power-light {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #00ff00 0%, #2ecc71 100%);
+    border-radius: 50%;
+    box-shadow:
+        0 0 10px rgba(0, 255, 0, 0.5),
+        inset 0 1px 2px rgba(255,255,255,0.3);
+    animation: powerPulse 2s ease-in-out infinite;
+}
+
+@keyframes powerPulse {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+.base-feet {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 20px;
+}
+
+.foot {
+    width: 15px;
+    height: 15px;
+    background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+    border-radius: 50%;
+    box-shadow:
+        0 3px 6px rgba(0,0,0,0.3),
+        inset 0 1px 2px rgba(255,255,255,0.1);
+}
+
+/* Panel de información - Modo oscuro shadcn/ui */
+.info-panel {
+    width: 600px;
+    height: 690px; /* +15% sobre 600px */
+    background: hsl(222.2 84% 4.9%);
+    border: 1px solid hsl(217.2 32.6% 17.5%);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow:
+        0 4px 6px -1px rgb(0 0 0 / 0.3),
+        0 2px 4px -2px rgb(0 0 0 / 0.2);
+    transform: translateZ(10px);
+    overflow: hidden;
+    margin-top: -90px; /* desplazar hacia arriba el aumento de altura */
+}
+
+.info-panel h3 {
+    color: hsl(210 40% 98%);
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.prizes-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; /* 4 columnas */
+    gap: 8px;
+    height: calc(100% - 50px);
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.prizes-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.prizes-list::-webkit-scrollbar-track {
+    background: hsl(217.2 32.6% 17.5%);
+    border-radius: 3px;
+}
+
+.prizes-list::-webkit-scrollbar-thumb {
+    background: hsl(215.4 16.3% 46.9%);
+    border-radius: 3px;
+}
+
+.prizes-list::-webkit-scrollbar-thumb:hover {
+    background: hsl(215.4 16.3% 56.9%);
+}
+
+.prize-item {
+    background: hsl(217.2 32.6% 17.5%);
+    border: 1px solid hsl(215.4 16.3% 26.9%);
+    border-radius: 8px;
+    padding: 6px 4px;
+    color: hsl(210 40% 98%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 70px;
+    justify-content: center;
+}
+
+.prize-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--rarity-color, #6b7280);
+    transition: all 0.3s ease;
+    border-radius: 10px 10px 0 0;
+}
+
+.prize-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.1) 100%);
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.prize-item:hover {
+    border-color: hsl(215.4 16.3% 46.9%);
+    box-shadow:
+        0 8px 25px -5px rgb(0 0 0 / 0.4),
+        0 4px 10px -3px rgb(0 0 0 / 0.2);
+    transform: translateY(-2px) scale(1.02);
+}
+
+.prize-item:hover::before {
+    height: 6px;
+}
+
+.prize-item:hover::after {
+    opacity: 1;
+}
+
+/* Premio actualmente ganado - efecto de iluminación */
+.prize-item.current-prize {
+    border-color: #ffd700;
+    box-shadow:
+        0 4px 10px -3px rgb(0 0 0 / 0.2);
+    transform: scale(1.05);
+}
+
+.prize-item.current-prize::before {
+    height: 8px;
+    background: linear-gradient(90deg, #ffd700, #ffed4e, #ffd700);
+}
+
+.prize-name {
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 13px;
+    line-height: 1.3;
+    color: hsl(210 40% 98%);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 0 2px rgba(0,0,0,0.4);
+    word-break: break-word;
+    white-space: normal;
+}
+
+.prize-rarity {
+    font-size: 9px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1px 4px;
+    border-radius: 8px;
+    background: var(--rarity-bg, rgba(107, 114, 128, 0.2));
+    color: var(--rarity-color, #9ca3af);
+    border: 1px solid var(--rarity-color, #6b7280);
+}
+
+.prize-probability {
+    font-size: 8px;
+    color: hsl(215.4 16.3% 66.9%);
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1px 4px;
+    border-radius: 4px;
+    margin-top: 2px;
+}
+
+/* Colores de rareza mejorados para modo oscuro */
+.prize-item.rarity-common {
+    --rarity-color: #9ca3af;
+    --rarity-bg: rgba(156, 163, 175, 0.15);
+}
+
+.prize-item.rarity-uncommon {
+    --rarity-color: #10b981;
+    --rarity-bg: rgba(16, 185, 129, 0.15);
+}
+
+.prize-item.rarity-rare {
+    --rarity-color: #3b82f6;
+    --rarity-bg: rgba(59, 130, 246, 0.15);
+}
+
+.prize-item.rarity-epic {
+    --rarity-color: #8b5cf6;
+    --rarity-bg: rgba(139, 92, 246, 0.15);
+}
+
+.prize-item.rarity-legendary {
+    --rarity-color: #f59e0b;
+    --rarity-bg: rgba(245, 158, 11, 0.15);
+}
+
+.prize-item.rarity-mythic {
+    --rarity-color: #ef4444;
+    --rarity-bg: rgba(239, 68, 68, 0.15);
+}
+
+/* Efectos de partículas */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ffd700;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particleFloat 2s ease-out forwards;
+}
+
+@keyframes particleFloat {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0) translateY(-100px);
+    }
+}
+
+/* Efectos de rareza */
+.rarity-common { color: #95a5a6; }
+.rarity-uncommon { color: #2ecc71; }
+.rarity-rare { color: #3498db; }
+.rarity-epic { color: #9b59b6; }
+.rarity-legendary { color: #f39c12; }
+.rarity-mythic { color: #e74c3c; }
+
+/* Animaciones especiales */
+@keyframes prizeWin {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(180deg); }
+    100% { transform: scale(1) rotate(360deg); }
+}
+
+.prize-won {
+    animation: prizeWin 1s ease-in-out;
+}
+
+@keyframes spinParticle {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0) rotate(0deg);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.5) translateY(-20px) rotate(180deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0) translateY(-40px) rotate(360deg);
+    }
+}
+
+/* Botón de giro debajo de la máquina */
+.spin-button-container {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+.spin-button {
+    background: linear-gradient(145deg, #ffd700, #f39c12);
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #2c3e50;
+    cursor: pointer;
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.spin-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.spin-button:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow:
+        0 6px 15px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    background: linear-gradient(145deg, #ffed4e, #ffd700);
+}
+
+.spin-button:hover::before {
+    left: 100%;
+}
+
+.spin-button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.spin-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.spin-button:disabled:hover {
+    transform: none;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button-text {
+    font-family: 'Arial', sans-serif;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.button-icon {
+    font-size: 20px;
+    animation: buttonIconSpin 2s ease-in-out infinite;
+}
+
+@keyframes buttonIconSpin {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(10deg); }
+}
+
+.spin-button.spinning .button-icon {
+    animation: buttonIconSpinFast 0.5s linear infinite;
+}
+
+@keyframes buttonIconSpinFast {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spin-button.spinning {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    color: white;
+    animation: buttonPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes buttonPulse {
+    from {
+        box-shadow:
+            0 4px 10px rgba(231, 76, 60, 0.3),
+            inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    }
+    to {
+        box-shadow:
+            0 6px 15px rgba(231, 76, 60, 0.4),
+            inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .game-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .gachapon-machine {
+        width: 300px;
+        height: 450px;
+    }
+
+    .info-panel {
+        width: 500px;
+        height: 575px; /* +15% sobre 500px */
+        margin-top: -75px; /* desplazar hacia arriba proporcionalmente */
+    }
+
+    .prizes-list {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 6px;
+    }
+
+    .prize-item {
+        padding: 6px 4px;
+        min-height: 70px;
+    }
+
+    .prize-name {
+        font-size: 12px;
+        line-height: 1.3;
+    }
+
+    .prize-rarity {
+        font-size: 8px;
+        padding: 1px 3px;
+    }
+
+    .prize-probability {
+        font-size: 7px;
+    }
+}
+
+/* Ajustes gráficos de imágenes */
+.top{
+    width: 500px;
+    height: auto;
+    position: absolute;
+    top: -144px;
+    left: -65px;
+}
+
+.sleft{
+    width: auto;
+    height: 305px;
+    position: absolute;
+    top: 88px;
+    left: -64px;
+    z-index: 2;
+}
+
+.sright{
+    width: auto;
+    height: 311px;
+    position: absolute;
+    top: 88px;
+    left: 340px;
+    z-index: 2;
+}
+
+.sbottom{
+    width: 512px;
+    height: auto;
+    position: absolute;
+    top: 369px;
+    left: -67px;
+}
+
+.scrank{
+    width: 450px;
+    height: auto;
+    position: absolute;
+    margin-top: 522px;
+    margin-left: -37px;
+    z-index: 2;
+    pointer-events: none;
+}
