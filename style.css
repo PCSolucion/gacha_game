@@ -26,7 +26,7 @@ body {
 /* Máquina de Gachapon Realista */
 .gachapon-machine {
     width: 452px;
-    margin-top: 79px;
+    margin-top: 139px;
     height: 774px;
     position: relative;
     transform-style: preserve-3d;
@@ -1064,7 +1064,7 @@ body {
 /* Botón de giro debajo de la máquina */
 .spin-button-container {
     position: absolute;
-    bottom: -80px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;

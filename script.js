@@ -23,7 +23,7 @@ const prizes = [
     // 6 poco comunes (verde)
     { id: 13, name: "1.250 de Oro", rarity: "uncommon", probability: 12, color: "#10b981", emoji: "", image: "https://res.cloudinary.com/pcsolucion/image/upload/v1756532956/coinpile_q2bwi9.png" },
     { id: 14, name: "25x Amanecer del Desierto", rarity: "uncommon", probability: 12, color: "#10b981", emoji: "", image: "https://res.cloudinary.com/pcsolucion/image/upload/v1745981157/agavedrinkt5_r1whsb.png" },
-    { id: 15, name: "1.000x Plátanos", rarity: "uncommon", probability: 12, color: "#10b981", emoji: "", image: "https://res.cloudinary.com/pcsolucion/image/upload/v1742345024/bananat1_g9dr34.png" },
+    { id: 15, name: "500x Plátanos", rarity: "uncommon", probability: 12, color: "#10b981", emoji: "", image: "https://res.cloudinary.com/pcsolucion/image/upload/v1742345024/bananat1_g9dr34.png" },
     { id: 16, name: "2x Escarabajos de Oro", rarity: "uncommon", probability: 12, color: "#10b981", emoji: "", image: "https://res.cloudinary.com/pcsolucion/image/upload/v1745981450/goldenscarab_ujkn8w.png" },
     { id: 17, name: "12x Natillas de Plátano", rarity: "uncommon", probability: 12, color: "#10b981", emoji: "", image: "https://res.cloudinary.com/pcsolucion/image/upload/v1749005289/fooddext51_xfpzqk.png" },
     { id: 18, name: "1.500 de Oro", rarity: "uncommon", probability: 12, color: "#10b981", emoji: "", image: "https://res.cloudinary.com/pcsolucion/image/upload/v1756532956/coinpile_q2bwi9.png" },
@@ -658,8 +658,9 @@ function createSpinParticles() {
 
 // Mostrar premio ganado
 function showPrize() {
-    const prizeName = document.querySelector('.prize-name');
-    const prizeRarityElement = document.querySelector('.prize-rarity');
+    // Usar elementos dedicados si existen para no tocar la lista de premios
+    const prizeName = document.getElementById('prizeDisplay');
+    const prizeRarityElement = document.getElementById('prizeRarity');
 
     if (prizeName && prizeRarityElement && currentPrize) {
         const icon = currentPrize.image
